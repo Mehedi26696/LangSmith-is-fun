@@ -13,6 +13,7 @@ from langchain_core.output_parsers import StrOutputParser
 
 load_dotenv()   
 
+# Set Project name for LangSmith tracking
 os.environ["LANGSMITH_PROJECT"] = "RAGChatbot"
 PDF_PATH = "Books.pdf"   
 
@@ -56,3 +57,9 @@ print("PDF RAG ready. Ask a question (or Ctrl+C to exit).")
 q = input("\nQ: ")
 ans = chain.invoke(q.strip())
 print("\nA:", ans)
+
+
+# Here two main flaws of this implementation are:
+# 1) Langsmith only tracing the chain portion (llm part) not the retriever part. like load pdf, chunk, embed, index, retrieve.
+# 2) We are not storing embeddings so each takes long to create embeddings again.
+
